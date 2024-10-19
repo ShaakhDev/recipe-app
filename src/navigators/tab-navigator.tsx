@@ -4,7 +4,7 @@ import * as Screens from '@/screens';
 import {BellIcon, BookmarkIcon, HomeIcon, UserIcon} from '@/icons';
 import {colors} from '@/theme';
 
-type BottomTabParamsList = {
+export type BottomTabParamsList = {
   Home: undefined;
   Saved: undefined;
   Profile: undefined;

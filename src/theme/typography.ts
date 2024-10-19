@@ -1,4 +1,4 @@
-const fonts = {
+export const fonts = {
   poppins: {
     regular: 'Poppins-Regular',
     medium: 'Poppins-Medium',
