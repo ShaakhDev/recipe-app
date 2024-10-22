@@ -1,7 +1,7 @@
 import {Chips, ScreenView, Text} from '@/components';
 import {colors, spacing} from '@/theme';
-import {Pressable, ScrollView, View, ViewStyle} from 'react-native';
-import {Avatar} from './components';
+import {Pressable, ScrollView, TextStyle, View, ViewStyle} from 'react-native';
+import {Avatar, CategoryCard, NewRecipeCard} from './components';
 import Icon from 'react-native-vector-icons/AntDesign';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
@@ -61,6 +61,26 @@ export const HomeScreen = ({
           </Chips>
         ))}
       </ScrollView>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        style={$horizontalContainer}>
+        <CategoryCard />
+        <CategoryCard />
+        <CategoryCard />
+      </ScrollView>
+      <Text style={$sectionTitle} size="md" fontWeight="bold">
+        New recipes
+      </Text>
+
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{paddingHorizontal: spacing.md, maxHeight: 150}}>
+        <NewRecipeCard />
+        <NewRecipeCard />
+        <NewRecipeCard />
+      </ScrollView>
     </ScreenView>
   );
 };
@@ -96,4 +116,13 @@ const $filter: ViewStyle = {
   justifyContent: 'center',
   alignItems: 'center',
   marginLeft: spacing.xs,
+};
+const $horizontalContainer: ViewStyle = {
+  marginTop: spacing.md,
+  paddingHorizontal: spacing.md,
+  maxHeight: 230,
+};
+const $sectionTitle: TextStyle = {
+  paddingHorizontal: spacing.md,
+  marginVertical: spacing.md,
 };

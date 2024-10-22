@@ -3,12 +3,7 @@ import {Svg, Path, SvgProps} from 'react-native-svg';
 export const UserIcon = ({stroke, fill, ...props}: SvgProps) => {
   return (
     <>
-      <Svg
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill={fill || 'none'}
-        {...props}>
+      <Svg width="24" height="24" viewBox="0 0 24 24" fill={'none'} {...props}>
         <Path
           d="M12.1601 10.87C12.0601 10.86 11.9401 10.86 11.8301 10.87C9.45006 10.79 7.56006 8.84 7.56006 6.44C7.56006 3.99 9.54006 2 12.0001 2C14.4501 2 16.4401 3.99 16.4401 6.44C16.4301 8.84 14.5401 10.79 12.1601 10.87Z"
           stroke={stroke || '#797979'}

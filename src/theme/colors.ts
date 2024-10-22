@@ -30,6 +30,8 @@ export const colors = {
   tabIconFocused: palette.primary40,
   screenBackground: palette.white,
   inputBorder: palette.gray400,
+  categoryCardBackground: palette.gray400,
+  starColor: palette.rating,
   text: palette.black,
   textSecondary: palette.gray300,
   palette,

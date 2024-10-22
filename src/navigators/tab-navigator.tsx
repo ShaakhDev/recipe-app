@@ -1,5 +1,4 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {View} from 'react-native';
 import * as Screens from '@/screens';
 import {BellIcon, BookmarkIcon, HomeIcon, UserIcon} from '@/icons';
 import {colors} from '@/theme';
