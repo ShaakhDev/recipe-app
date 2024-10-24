@@ -21,14 +21,18 @@ export const NewRecipeCard = () => {
         <Icon name="star" size={10} color={colors.starColor} />
         <Icon name="star" size={10} color={colors.starColor} />
       </View>
-      <View style={[$row]}>
+      <View style={[$row, {justifyContent: 'space-between'}]}>
         <View style={[$row]}>
           <Image style={$avatar} source={require('/assets/salad.png')} />
           <Text size="sm" style={$name}>
             Joohn Doe
           </Text>
         </View>
-        <View style={[$row]}></View>
+        <View style={[$row]}>
+          <Text size="xs" style={$name}>
+            25 mins
+          </Text>
+        </View>
       </View>
     </View>
   );
@@ -54,7 +58,7 @@ const $card: ViewStyle = {
   shadowOpacity: 0.29,
   shadowRadius: 4.65,
 
-  elevation: 5,
+  elevation: 2,
 };
 const $circleImage: ViewStyle = {
   overflow: 'hidden',
@@ -64,7 +68,6 @@ const $circleImage: ViewStyle = {
   position: 'absolute',
   top: -40,
   right: spacing.md,
-  // backgroundColor: colors.palette.gray400,
 };
 const $image: ImageStyle = {
   width: 80,

@@ -1,10 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import {NavigationContainer} from '@react-navigation/native';
 import React from 'react';
 import {
@@ -12,13 +5,25 @@ import {
   SafeAreaProvider,
 } from 'react-native-safe-area-context';
 import {AppNavigator} from '@/navigators';
+import {StatusBar} from 'react-native';
+import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
+import {colors} from '@/theme';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 function App(): React.JSX.Element {
   return (
     <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-      <NavigationContainer>
-        <AppNavigator />
-      </NavigationContainer>
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor={colors.palette.white}
+      />
+      <GestureHandlerRootView>
+        <BottomSheetModalProvider>
+          <NavigationContainer>
+            <AppNavigator />
+          </NavigationContainer>
+        </BottomSheetModalProvider>
+      </GestureHandlerRootView>
     </SafeAreaProvider>
   );
 }
