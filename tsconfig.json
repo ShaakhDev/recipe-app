@@ -9,7 +9,8 @@
       "@/screens": ["./src/screens"],
       "@/theme": ["./src/theme"],
       "@/icons": ["./src/resource/icons"],
-      "@/constants": ["./src/constants"]
+      "@/constants": ["./src/constants"],
+      "@/store": ["./src/store"]
     }
   }
 }

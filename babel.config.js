@@ -13,6 +13,7 @@ module.exports = {
           '@/theme': './src/theme',
           '@/icons': './src/resource/icons',
           '@/constants': './src/constants',
+          '@/store': './src/store',
         },
       },
     ],

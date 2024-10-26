@@ -7,14 +7,19 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {BottomTabParamsList, RootStackParamList} from '@/navigators';
 import {useState} from 'react';
+import {setTheme, useAppDispatch, useAppSelector} from '@/store';
 
 const chips = ['All', 'Indian', 'Italian', 'Asian', 'Mexican', 'Chinese'];
 
 export const HomeScreen = ({
   navigation,
 }: BottomTabScreenProps<BottomTabParamsList & RootStackParamList>) => {
+  // const dispatch = useAppDispatch();
+  // const {mode} = useAppSelector(state => state.theme);
+
   const [activeCategory, setActiveCategory] = useState('All');
   const handleSearch = () => {
+    // dispatch(setTheme('light'));
     navigation.navigate('Search');
   };
   return (

@@ -9,6 +9,8 @@ import {StatusBar} from 'react-native';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import {colors} from '@/theme';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {Provider} from 'react-redux';
+import {store} from '@/store';
 
 function App(): React.JSX.Element {
   return (
@@ -19,9 +21,11 @@ function App(): React.JSX.Element {
       />
       <GestureHandlerRootView>
         <BottomSheetModalProvider>
-          <NavigationContainer>
-            <AppNavigator />
-          </NavigationContainer>
+          <Provider store={store}>
+            <NavigationContainer>
+              <AppNavigator />
+            </NavigationContainer>
+          </Provider>
         </BottomSheetModalProvider>
       </GestureHandlerRootView>
     </SafeAreaProvider>
