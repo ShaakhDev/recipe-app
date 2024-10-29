@@ -94,6 +94,7 @@ const $headerRow: ViewStyle = {
   alignItems: 'center',
   justifyContent: 'space-between',
   paddingHorizontal: spacing.md,
+  marginTop: spacing.lg,
 };
 const $searchRow: ViewStyle = {
   flexDirection: 'row',

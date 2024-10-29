@@ -1,4 +1,5 @@
-import {Text, View, ViewStyle} from 'react-native';
+import {Text} from '@/components';
+import {View, ViewStyle} from 'react-native';
 
 export const LoginScreen = () => {
   return (

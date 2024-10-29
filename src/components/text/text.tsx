@@ -6,11 +6,19 @@ type TextProps = {
   size?: keyof typeof TextSizes;
   style?: TextStyle;
   fontWeight?: keyof typeof fonts.poppins;
+  appearance?: 'dark' | 'white';
 } & PropsWithChildren;
 
-export const Text = ({fontWeight, size, style, children}: TextProps) => {
+export const Text = ({
+  fontWeight,
+  size,
+  style,
+  children,
+  appearance = 'dark',
+}: TextProps) => {
   const textStyles = [
     $baseTextStyle,
+    appearance === 'white' && {color: colors.palette.white},
     size && {fontSize: TextSizes[size || 'md']},
     fontWeight && {fontFamily: fonts.poppins[fontWeight]},
     style,

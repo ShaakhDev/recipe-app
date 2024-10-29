@@ -37,6 +37,10 @@ export const TabNavigator = () => {
       />
       <Tab.Screen
         options={{
+          headerShown: true,
+          headerTitleAlign: 'center',
+          headerShadowVisible: false,
+          headerTitle: 'Saved recipes',
           tabBarIcon: ({focused}) => (
             <BookmarkIcon fill={focused ? colors.primary : undefined} />
           ),

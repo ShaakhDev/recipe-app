@@ -5,6 +5,8 @@ import {
 import {TabNavigator} from './tab-navigator';
 import {AuthNavigator} from './auth-navigator';
 import * as Screens from '@/screens';
+import {StatusBar, useColorScheme} from 'react-native';
+import {colors} from '@/theme';
 
 export type RootStackParamList = {
   Auth: undefined;
@@ -32,24 +34,40 @@ const RootStackScreenOptions: RootStackScreenOptionsType = {
 };
 
 export const AppNavigator = () => {
+  const colorScheme = useColorScheme();
   return (
-    <RootStack.Navigator
-      screenOptions={{
-        headerShown: false,
-        animation: 'fade_from_bottom',
-      }}>
-      <RootStack.Screen
-        options={{}}
-        name="Initial"
-        component={Screens.InitialScreen}
+    <>
+      <StatusBar
+        barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'}
+        translucent={true}
+        backgroundColor={'transparent'}
       />
-      <RootStack.Screen options={{}} name="Auth" component={AuthNavigator} />
-      <RootStack.Screen options={{}} name="Tab" component={TabNavigator} />
-      <RootStack.Screen
-        options={RootStackScreenOptions.Search}
-        name="Search"
-        component={Screens.SearchScreen}
-      />
-    </RootStack.Navigator>
+      <RootStack.Navigator
+        screenOptions={{
+          headerShown: false,
+          animation: 'fade_from_bottom',
+        }}>
+        <RootStack.Screen
+          options={{}}
+          name="Initial"
+          component={Screens.InitialScreen}
+        />
+        <RootStack.Screen
+          options={RootStackScreenOptions.Auth}
+          name="Auth"
+          component={AuthNavigator}
+        />
+        <RootStack.Screen
+          // options={RootStackScreenOptions.Tab}
+          name="Tab"
+          component={TabNavigator}
+        />
+        <RootStack.Screen
+          options={RootStackScreenOptions.Search}
+          name="Search"
+          component={Screens.SearchScreen}
+        />
+      </RootStack.Navigator>
+    </>
   );
 };
