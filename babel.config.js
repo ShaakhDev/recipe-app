@@ -14,6 +14,8 @@ module.exports = {
           '@/icons': './src/resource/icons',
           '@/constants': './src/constants',
           '@/store': './src/store',
+          '@/config': './src/config',
+          '@/features': './src/features',
         },
       },
     ],

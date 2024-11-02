@@ -10,7 +10,9 @@
       "@/theme": ["./src/theme"],
       "@/icons": ["./src/resource/icons"],
       "@/constants": ["./src/constants"],
-      "@/store": ["./src/store"]
+      "@/store": ["./src/store"],
+      "@/config": ["./src/config"],
+      "@/features": ["./src/features"]
     }
   }
 }
