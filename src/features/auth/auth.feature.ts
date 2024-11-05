@@ -11,8 +11,15 @@ export const AuthEndpoints = baseApi.injectEndpoints({
       }),
       invalidatesTags: [RTKTagNames.USER],
     }),
+    login: build.mutation({
+      query: body => ({
+        url: '/auth/sign-in',
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
   overrideExisting: true,
 });
 
-export const {useSignUpMutation} = AuthEndpoints;
+export const {useSignUpMutation, useLoginMutation} = AuthEndpoints;

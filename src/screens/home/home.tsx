@@ -8,7 +8,7 @@ import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {BottomTabParamsList, RootStackParamList} from '@/navigators';
 import {useState} from 'react';
 import {setTheme, useAppDispatch, useAppSelector} from '@/store';
-
+import {Storage} from '@/utils';
 const chips = ['All', 'Indian', 'Italian', 'Asian', 'Mexican', 'Chinese'];
 
 export const HomeScreen = ({
