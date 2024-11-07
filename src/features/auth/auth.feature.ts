@@ -1,5 +1,6 @@
 import {RTKTagNames} from '@/constants';
 import {baseApi} from '../api';
+import {LoginRequest, LoginResponse} from './auth.feature.types';
 
 export const AuthEndpoints = baseApi.injectEndpoints({
   endpoints: build => ({
@@ -11,7 +12,7 @@ export const AuthEndpoints = baseApi.injectEndpoints({
       }),
       invalidatesTags: [RTKTagNames.USER],
     }),
-    login: build.mutation({
+    login: build.mutation<LoginResponse, LoginRequest>({
       query: body => ({
         url: '/auth/sign-in',
         method: 'POST',

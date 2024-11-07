@@ -1,21 +1,23 @@
 import {colors, spacing} from '@/theme';
-import {TouchableOpacity, ViewStyle} from 'react-native';
-import {Pressable} from 'react-native';
+import {ActivityIndicator, TouchableOpacity, ViewStyle} from 'react-native';
 import {Text} from '../text';
 
 type ButtonProps = {
   children?: string | React.ReactNode;
   onPress?: () => void;
   style?: ViewStyle;
+  isLoading?: boolean;
 };
 
-export const Button = ({onPress, children, style}: ButtonProps) => {
+export const Button = ({onPress, children, style, isLoading}: ButtonProps) => {
   return (
     <TouchableOpacity
       style={[$button, style]}
       onPress={onPress}
       activeOpacity={0.7}>
-      {typeof children === 'string' ? (
+      {isLoading ? (
+        <ActivityIndicator size={'small'} color={colors.palette.white} />
+      ) : typeof children === 'string' ? (
         <Text appearance="white">{children}</Text>
       ) : (
         children

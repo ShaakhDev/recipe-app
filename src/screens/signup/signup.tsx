@@ -3,18 +3,17 @@ import {colors, spacing} from '@/theme';
 import {useState} from 'react';
 import {Pressable, TextStyle, View, ViewStyle} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
-import {useLoginMutation} from '@/features';
-import {Storage} from '@/utils';
-import {StorageKeys} from '@/constants';
+import {useSignUpMutation} from '@/features';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {AuthStackParamList} from 'src/navigators/auth-navigator';
 import {RootStackParamList} from '@/navigators';
 
-export const LoginScreen = ({
+export const SignupScreen = ({
   navigation,
 }: NativeStackScreenProps<AuthStackParamList & RootStackParamList>) => {
-  const [loginMutation, {isLoading}] = useLoginMutation();
+  const [signupMutation, {isLoading}] = useSignUpMutation();
   const [email, setEmail] = useState('');
+
   const [password, setPassword] = useState('');
 
   const handleChange = (field: 'email' | 'password') => (value: string) => {
@@ -25,29 +24,26 @@ export const LoginScreen = ({
     }
   };
 
-  const onLogin = async () => {
-    try {
-      const result = await loginMutation({email, password});
-      console.log(result);
-      if (result?.data?.token) {
-        Storage.setItem(StorageKeys.TOKEN, result?.data?.token);
-        navigation.replace('Tab');
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const onSignUp = async () => {};
 
-  const handleSignUpPress = () => {
-    navigation.navigate('Signup');
+  const handleLoginPress = () => {
+    navigation.replace('Login');
   };
   return (
     <View style={$container}>
-      <Text fontWeight="bold" style={$title}>
-        Hello,
+      <Text fontWeight="bold" size="lg">
+        Create an account
       </Text>
-      <Text size="xl">Welcome back!</Text>
+      <Text size="xs">
+        Let’s help you set up your account, it won’t take long.
+      </Text>
       <View style={$inputContainer}>
+        <TextField
+          onChangeText={handleChange('email')}
+          value={email}
+          label="Name"
+          placeholder="Enter your name"
+        />
         <TextField
           onChangeText={handleChange('email')}
           value={email}
@@ -58,17 +54,25 @@ export const LoginScreen = ({
           onChangeText={handleChange('password')}
           value={password}
           label="Password"
+          isPassword
           placeholder="Enter your password"
+        />
+        <TextField
+          onChangeText={handleChange('password')}
+          value={password}
+          label="Confirm Password"
+          isPassword
+          placeholder="Retype password"
         />
       </View>
       <Pressable>
-        <Text size="xss" style={$forgotText}>
-          Forgot password?
+        <Text size="xss" style={$termsText}>
+          Accept Terms & Conditions
         </Text>
       </Pressable>
-      <Button isLoading={isLoading} style={$button} onPress={onLogin}>
+      <Button isLoading={isLoading} style={$button} onPress={onSignUp}>
         <>
-          <Text appearance="white">Sign In</Text>
+          <Text appearance="white">Sign Up</Text>
           <Icon
             name="arrowright"
             size={20}
@@ -78,10 +82,10 @@ export const LoginScreen = ({
         </>
       </Button>
       <View style={{flexDirection: 'row', gap: 5, justifyContent: 'center'}}>
-        <Text size="xs">Don't have an account?</Text>
-        <Pressable onPress={handleSignUpPress}>
+        <Text size="xs">Already a member?</Text>
+        <Pressable onPress={handleLoginPress}>
           <Text size="xs" style={{color: colors.starColor}}>
-            Sign Up
+            Login
           </Text>
         </Pressable>
       </View>
@@ -91,7 +95,7 @@ export const LoginScreen = ({
 
 const $container: ViewStyle = {
   flex: 1,
-  paddingTop: 100,
+  justifyContent: 'center',
   paddingHorizontal: spacing.md,
 };
 const $title: TextStyle = {
@@ -105,11 +109,12 @@ const $inputContainer: ViewStyle = {
 const $button: ViewStyle = {
   flexDirection: 'row',
   paddingVertical: spacing.md,
-  marginVertical: spacing.xxl,
+  marginTop: spacing.xxl,
+  marginBottom: spacing.md,
   minHeight: 60,
   height: 60,
 };
-const $forgotText: TextStyle = {
+const $termsText: TextStyle = {
   color: colors.starColor,
   marginTop: spacing.md,
 };
