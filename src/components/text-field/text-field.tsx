@@ -1,14 +1,16 @@
 import {Pressable, TextInput, TextStyle, View, ViewStyle} from 'react-native';
 import {Text} from '../text/text';
-import {colors} from '@/theme';
+import {colors, spacing} from '@/theme';
 import Icon from 'react-native-vector-icons/Entypo';
 import {useState} from 'react';
+
 type TextFieldProps = {
   placeholder?: string;
   value: string;
   onChangeText: (text: string) => void;
   label?: string;
   isPassword?: boolean;
+  error?: string;
 };
 
 export const TextField = ({
@@ -17,13 +19,15 @@ export const TextField = ({
   label,
   placeholder,
   isPassword = false,
+  error,
 }: TextFieldProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const handleShowPassword = () => setShowPassword(!showPassword);
+  const hasError = !!error;
   return (
     <View style={$container}>
       {label && <Text size="xs">{label}</Text>}
-      <View style={$inputContainer}>
+      <View style={[$inputContainer, hasError && {borderColor: '#ff0000'}]}>
         <TextInput
           secureTextEntry={isPassword && !showPassword}
           value={value}
@@ -46,6 +50,11 @@ export const TextField = ({
           </Pressable>
         )}
       </View>
+      {error && (
+        <Text size="xss" style={$errorText}>
+          {error}
+        </Text>
+      )}
     </View>
   );
 };
@@ -68,4 +77,8 @@ const $input: TextStyle = {
   fontSize: 12,
   lineHeight: 16,
   color: colors.text,
+};
+const $errorText: TextStyle = {
+  color: '#ff0000',
+  marginTop: spacing.xs,
 };

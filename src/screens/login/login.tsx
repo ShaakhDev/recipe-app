@@ -1,37 +1,37 @@
 import {Button, Text, TextField} from '@/components';
 import {colors, spacing} from '@/theme';
-import {useState} from 'react';
 import {Pressable, TextStyle, View, ViewStyle} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {useLoginMutation} from '@/features';
-import {Storage} from '@/utils';
+import {showToast, Storage} from '@/utils';
 import {StorageKeys} from '@/constants';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {AuthStackParamList} from 'src/navigators/auth-navigator';
 import {RootStackParamList} from '@/navigators';
+import {Controller, FieldValues, SubmitHandler, useForm} from 'react-hook-form';
 
 export const LoginScreen = ({
   navigation,
 }: NativeStackScreenProps<AuthStackParamList & RootStackParamList>) => {
-  const [loginMutation, {isLoading}] = useLoginMutation();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const {
+    control,
+    handleSubmit,
+    formState: {errors},
+  } = useForm();
+  const [loginMutation, {isLoading, error}] = useLoginMutation();
 
-  const handleChange = (field: 'email' | 'password') => (value: string) => {
-    if (field === 'email') {
-      setEmail(value);
-    } else {
-      setPassword(value);
-    }
-  };
-
-  const onLogin = async () => {
+  const onLogin: SubmitHandler<FieldValues> = async data => {
+    const {email, password} = data;
     try {
       const result = await loginMutation({email, password});
-      console.log(result);
+
       if (result?.data?.token) {
         Storage.setItem(StorageKeys.TOKEN, result?.data?.token);
         navigation.replace('Tab');
+      } else {
+        if ((error as any)?.status === 400) {
+          showToast('User not found or invalid credentials');
+        }
       }
     } catch (err) {
       console.log(err);
@@ -41,6 +41,7 @@ export const LoginScreen = ({
   const handleSignUpPress = () => {
     navigation.navigate('Signup');
   };
+
   return (
     <View style={$container}>
       <Text fontWeight="bold" style={$title}>
@@ -48,17 +49,35 @@ export const LoginScreen = ({
       </Text>
       <Text size="xl">Welcome back!</Text>
       <View style={$inputContainer}>
-        <TextField
-          onChangeText={handleChange('email')}
-          value={email}
-          label="Email"
-          placeholder="Enter your email"
+        <Controller
+          name="email"
+          control={control}
+          rules={{required: 'Email is required'}}
+          render={({field: {onChange, value}}) => (
+            <TextField
+              onChangeText={onChange}
+              value={value}
+              label="Email"
+              placeholder="Enter your email"
+              error={errors?.email?.message as string}
+            />
+          )}
         />
-        <TextField
-          onChangeText={handleChange('password')}
-          value={password}
-          label="Password"
-          placeholder="Enter your password"
+
+        <Controller
+          name="password"
+          rules={{required: 'Password is required'}}
+          control={control}
+          render={({field: {onChange, value}}) => (
+            <TextField
+              onChangeText={onChange}
+              value={value}
+              label="Password"
+              placeholder="Enter your password"
+              isPassword
+              error={errors?.password?.message as string}
+            />
+          )}
         />
       </View>
       <Pressable>
@@ -66,7 +85,10 @@ export const LoginScreen = ({
           Forgot password?
         </Text>
       </Pressable>
-      <Button isLoading={isLoading} style={$button} onPress={onLogin}>
+      <Button
+        isLoading={isLoading}
+        style={$button}
+        onPress={handleSubmit(onLogin)}>
         <>
           <Text appearance="white">Sign In</Text>
           <Icon
