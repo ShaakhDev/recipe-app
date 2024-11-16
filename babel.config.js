@@ -16,6 +16,7 @@ module.exports = {
           '@/store': './src/store',
           '@/config': './src/config',
           '@/features': './src/features',
+          '@/hooks': './src/hooks',
         },
       },
     ],

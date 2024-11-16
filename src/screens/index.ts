@@ -7,3 +7,4 @@ export * from './welcome';
 export * from './login';
 export * from './signup';
 export * from './search';
+export * from './create-recipe';

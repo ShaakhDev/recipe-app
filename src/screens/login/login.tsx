@@ -24,7 +24,7 @@ export const LoginScreen = ({
     const {email, password} = data;
     try {
       const result = await loginMutation({email, password});
-
+      console.log(result);
       if (result?.data?.token) {
         Storage.setItem(StorageKeys.TOKEN, result?.data?.token);
         navigation.replace('Tab');

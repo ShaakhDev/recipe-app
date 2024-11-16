@@ -12,7 +12,8 @@
       "@/constants": ["./src/constants"],
       "@/store": ["./src/store"],
       "@/config": ["./src/config"],
-      "@/features": ["./src/features"]
+      "@/features": ["./src/features"],
+      "@/hooks": ["./src/hooks"]
     }
   }
 }

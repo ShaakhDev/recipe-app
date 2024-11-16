@@ -24,5 +24,5 @@ export const baseApi = createApi({
   reducerPath: 'api',
   baseQuery,
   endpoints: () => ({}),
-  tagTypes: [RTKTagNames.USER],
+  tagTypes: Object.values(RTKTagNames),
 });

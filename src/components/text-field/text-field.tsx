@@ -11,6 +11,8 @@ type TextFieldProps = {
   label?: string;
   isPassword?: boolean;
   error?: string;
+  multiline?: boolean;
+  numberOfLines?: number;
 };
 
 export const TextField = ({
@@ -20,6 +22,8 @@ export const TextField = ({
   placeholder,
   isPassword = false,
   error,
+  multiline = false,
+  numberOfLines = 1,
 }: TextFieldProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const handleShowPassword = () => setShowPassword(!showPassword);
@@ -31,10 +35,12 @@ export const TextField = ({
         <TextInput
           secureTextEntry={isPassword && !showPassword}
           value={value}
+          multiline={multiline}
+          numberOfLines={numberOfLines}
           onChangeText={onChangeText}
           placeholder={placeholder || ''}
           placeholderTextColor={colors.inputBorder}
-          style={$input}
+          style={[$input, multiline && {verticalAlign: 'top'}]}
         />
         {isPassword && (
           <Pressable onPress={handleShowPassword}>
@@ -69,7 +75,8 @@ const $inputContainer: ViewStyle = {
   borderColor: colors.inputBorder,
   paddingHorizontal: 12,
   marginTop: 8,
-  maxHeight: 50,
+
+  // maxHeight: ,
 };
 
 const $input: TextStyle = {

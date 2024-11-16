@@ -1,11 +1,12 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import * as Screens from '@/screens';
-import {BellIcon, BookmarkIcon, HomeIcon, UserIcon} from '@/icons';
+import {BellIcon, BookmarkIcon, HomeIcon, PlusIcon, UserIcon} from '@/icons';
 import {colors} from '@/theme';
 
 export type BottomTabParamsList = {
   Home: undefined;
   Saved: undefined;
+  CreateRecipe: undefined;
   Profile: undefined;
   Notification: undefined;
 };
@@ -16,6 +17,7 @@ export const TabNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={{
+        tabBarHideOnKeyboard: true,
         headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: {
@@ -47,6 +49,17 @@ export const TabNavigator = () => {
         }}
         name="Saved"
         component={Screens.SavedScreen}
+      />
+      <Tab.Screen
+        options={{
+          headerShown: true,
+          headerTitleAlign: 'center',
+          headerShadowVisible: false,
+          headerTitle: 'Add new recipe',
+          tabBarIcon: () => <PlusIcon />,
+        }}
+        name="CreateRecipe"
+        component={Screens.CreateRecipeScreen}
       />
       <Tab.Screen
         options={{
