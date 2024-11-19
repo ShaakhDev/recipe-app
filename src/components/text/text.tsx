@@ -7,6 +7,7 @@ type TextProps = {
   style?: TextStyle;
   fontWeight?: keyof typeof fonts.poppins;
   appearance?: 'dark' | 'white';
+  numberOfLines?: number;
 } & PropsWithChildren;
 
 export const Text = ({
@@ -15,6 +16,7 @@ export const Text = ({
   style,
   children,
   appearance = 'dark',
+  numberOfLines,
 }: TextProps) => {
   const textStyles = [
     $baseTextStyle,
@@ -23,7 +25,11 @@ export const Text = ({
     fontWeight && {fontFamily: fonts.poppins[fontWeight]},
     style,
   ];
-  return <RNText style={textStyles}>{children}</RNText>;
+  return (
+    <RNText style={textStyles} numberOfLines={numberOfLines}>
+      {children}
+    </RNText>
+  );
 };
 
 const TextSizes = {

@@ -25,5 +25,5 @@ const $container: ViewStyle = {
   backgroundColor: colors.screenBackground,
   paddingVertical: spacing.lg - 4,
   paddingHorizontal: spacing.md,
-  flex: 1,
+  // flex: 1,
 };
