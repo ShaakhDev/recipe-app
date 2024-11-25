@@ -2,6 +2,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import * as Screens from '@/screens';
 import {BellIcon, BookmarkIcon, HomeIcon, PlusIcon, UserIcon} from '@/icons';
 import {colors} from '@/theme';
+import {ProfileMoreActions} from '@/components';
 
 export type BottomTabParamsList = {
   Home: undefined;
@@ -63,6 +64,10 @@ export const TabNavigator = () => {
       />
       <Tab.Screen
         options={{
+          headerShown: true,
+          headerTitleAlign: 'center',
+          headerShadowVisible: false,
+          headerTitle: 'Notifications',
           tabBarIcon: ({focused}) => (
             <BellIcon
               stroke={focused ? colors.primary : undefined}
@@ -75,6 +80,12 @@ export const TabNavigator = () => {
       />
       <Tab.Screen
         options={{
+          headerShown: true,
+          headerTitleAlign: 'center',
+          headerShadowVisible: false,
+          headerTitle: 'Profile',
+
+          headerRight: () => <ProfileMoreActions />,
           tabBarIcon: ({focused}) => (
             <UserIcon
               fill={focused ? colors.tabIconFocused : undefined}

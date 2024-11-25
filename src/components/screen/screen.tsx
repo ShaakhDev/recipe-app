@@ -1,6 +1,7 @@
 import {colors, spacing} from '@/theme';
 import {PropsWithChildren} from 'react';
-import {ScrollView, ViewStyle} from 'react-native';
+import {ScrollView, View, ViewStyle} from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 type ScreenViewProps = {
   style?: ViewStyle;
@@ -13,11 +14,15 @@ export const ScreenView = ({
   children,
 }: ScreenViewProps) => {
   return (
-    <ScrollView
-      style={style}
-      contentContainerStyle={[$container, contentContainerStyle]}>
-      {children}
-    </ScrollView>
+    <View style={{flex: 1}}>
+      <KeyboardAwareScrollView style={$keyboardAware}>
+        <ScrollView
+          style={style}
+          contentContainerStyle={[$container, contentContainerStyle]}>
+          {children}
+        </ScrollView>
+      </KeyboardAwareScrollView>
+    </View>
   );
 };
 
@@ -25,5 +30,10 @@ const $container: ViewStyle = {
   backgroundColor: colors.screenBackground,
   paddingVertical: spacing.lg - 4,
   paddingHorizontal: spacing.md,
-  // flex: 1,
+  flex: 1,
+};
+
+const $keyboardAware: ViewStyle = {
+  flex: 1,
+  backgroundColor: colors.screenBackground,
 };

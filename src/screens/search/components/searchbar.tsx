@@ -28,7 +28,7 @@ export const SearchBar = () => {
           <IonIcon
             name="options-outline"
             size={26}
-            color={colors.inputBorder}
+            color={colors.palette.white}
           />
         </Pressable>
       </View>

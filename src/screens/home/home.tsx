@@ -7,21 +7,21 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {BottomTabParamsList, RootStackParamList} from '@/navigators';
 import {useState} from 'react';
-import {setTheme, useAppDispatch, useAppSelector} from '@/store';
-import {Storage} from '@/utils';
+import {useGetAllRecipesQuery} from '@/features';
+
 const chips = ['All', 'Indian', 'Italian', 'Asian', 'Mexican', 'Chinese'];
 
 export const HomeScreen = ({
   navigation,
 }: BottomTabScreenProps<BottomTabParamsList & RootStackParamList>) => {
-  // const dispatch = useAppDispatch();
-  // const {mode} = useAppSelector(state => state.theme);
-
+  const {data, isLoading, isFetching} = useGetAllRecipesQuery({
+    category: 'Uzbek cuisine',
+  });
   const [activeCategory, setActiveCategory] = useState('All');
   const handleSearch = () => {
-    // dispatch(setTheme('light'));
     navigation.navigate('Search');
   };
+
   return (
     <ScreenView contentContainerStyle={{paddingHorizontal: 0}}>
       <View style={$headerRow}>
@@ -69,10 +69,12 @@ export const HomeScreen = ({
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        style={$horizontalContainer}>
-        <CategoryCard />
-        <CategoryCard />
-        <CategoryCard />
+        contentContainerStyle={$horizontalContainer}>
+        {data?.map((recipe, index) => (
+          <CategoryCard recipe={recipe} />
+        ))}
+        {/* <CategoryCard />
+        <CategoryCard /> */}
       </ScrollView>
       <Text style={$sectionTitle} size="md" fontWeight="bold">
         New recipes
@@ -81,7 +83,11 @@ export const HomeScreen = ({
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{paddingHorizontal: spacing.md, maxHeight: 150}}>
+        contentContainerStyle={{
+          paddingHorizontal: spacing.md,
+          maxHeight: 150,
+          paddingVertical: spacing.xs,
+        }}>
         <NewRecipeCard />
         <NewRecipeCard />
         <NewRecipeCard />

@@ -26,18 +26,28 @@ export const TextField = ({
   numberOfLines = 1,
 }: TextFieldProps) => {
   const [showPassword, setShowPassword] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
   const handleShowPassword = () => setShowPassword(!showPassword);
   const hasError = !!error;
+
+  const $inputStyles = [
+    $inputContainer,
+    isFocused && {borderColor: colors.primary},
+    hasError && {borderColor: '#ff0000'},
+  ];
+
   return (
     <View style={$container}>
       {label && <Text size="xs">{label}</Text>}
-      <View style={[$inputContainer, hasError && {borderColor: '#ff0000'}]}>
+      <View style={$inputStyles}>
         <TextInput
           secureTextEntry={isPassword && !showPassword}
           value={value}
           multiline={multiline}
           numberOfLines={numberOfLines}
           onChangeText={onChangeText}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
           placeholder={placeholder || ''}
           placeholderTextColor={colors.inputBorder}
           style={[$input, multiline && {verticalAlign: 'top'}]}

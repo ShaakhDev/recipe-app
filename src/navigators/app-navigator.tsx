@@ -13,6 +13,7 @@ export type RootStackParamList = {
   Tab: undefined;
   Initial: undefined;
   Search: undefined;
+  RecipeDetail: {id: string} | undefined;
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -30,6 +31,12 @@ const RootStackScreenOptions: RootStackScreenOptionsType = {
     headerTitleAlign: 'center',
     headerShadowVisible: false,
     title: 'Search recipes',
+  },
+  RecipeDetail: {
+    headerShown: true,
+    headerTitleAlign: 'center',
+    headerShadowVisible: false,
+    title: 'Recipe Detail',
   },
 };
 
@@ -66,6 +73,11 @@ export const AppNavigator = () => {
           options={RootStackScreenOptions.Search}
           name="Search"
           component={Screens.SearchScreen}
+        />
+        <RootStack.Screen
+          options={RootStackScreenOptions.RecipeDetail}
+          name="RecipeDetail"
+          component={Screens.RecipeDetailScreen}
         />
       </RootStack.Navigator>
     </>

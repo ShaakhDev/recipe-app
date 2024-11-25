@@ -1,27 +1,44 @@
 import {Text} from '@/components';
 import {BookmarkIcon} from '@/icons';
+import {RootStackParamList} from '@/navigators';
 import {colors, spacing} from '@/theme';
+import {Recipe} from '@/types';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {
   ImageBackground,
   ImageStyle,
+  Pressable,
   TextStyle,
   View,
   ViewStyle,
 } from 'react-native';
 
-export const CategoryCard = () => {
+type CategoryCardProps = {
+  recipe: Recipe;
+};
+
+export const CategoryCard = ({recipe}: CategoryCardProps) => {
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+  const imageSource = recipe.image
+    ? {uri: recipe.image}
+    : require('/assets/salad.png');
+
+  const onPressCard = () => {
+    navigation.navigate('RecipeDetail', {id: recipe._id});
+  };
   return (
-    <View style={$card}>
+    <Pressable style={$card} onPress={onPressCard}>
       <View style={$circleImage}>
         <ImageBackground
           style={{width: 100, height: 100}}
-          source={require('/assets/salad.png')}
+          source={imageSource}
           resizeMode="contain"
         />
         {/* <View style={$ratingBadge}></View> */}
       </View>
       <Text size="sm" fontWeight="bold" style={$title}>
-        Classic Greek Salad
+        {recipe.title}
       </Text>
 
       <View style={$footer}>
@@ -33,14 +50,14 @@ export const CategoryCard = () => {
             time
           </Text>
           <Text size="sm" fontWeight="medium">
-            25 mins
+            {recipe?.time}
           </Text>
         </View>
         <View style={$bookmark}>
           <BookmarkIcon width={16} height={16} />
         </View>
       </View>
-    </View>
+    </Pressable>
   );
 };
 

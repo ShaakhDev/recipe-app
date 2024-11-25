@@ -5,7 +5,7 @@ import {Text} from '../text';
 type ButtonProps = {
   children?: string | React.ReactNode;
   onPress?: () => void;
-  style?: ViewStyle;
+  style?: ViewStyle | ViewStyle[];
   isLoading?: boolean;
 };
 

@@ -4,7 +4,7 @@ export type Ingredient = {
 };
 
 export type Recipe = {
-  id: string;
+  _id: string;
   title: string;
   description: string;
   time: string;
