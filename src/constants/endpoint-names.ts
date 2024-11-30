@@ -7,4 +7,5 @@ export enum EndpointNames {
   CREATE_RECIPE = '/recipe/create',
   GET_RECIPE_BY_ID = '/recipe',
   GET_NEW_RECIPES = '/recipe-get/new',
+  FILE_UPLOAD = '/upload',
 }

@@ -1,5 +1,12 @@
-import {Button, ScreenView, SelectTrigger, Text, TextField} from '@/components';
-import {useCreateRecipeMutation} from '@/features';
+import {
+  Button,
+  FilePicker,
+  ScreenView,
+  SelectTrigger,
+  Text,
+  TextField,
+} from '@/components';
+import {useCreateRecipeMutation, useFileUploadMutation} from '@/features';
 import {useHandleRequest} from '@/hooks';
 import {colors, spacing} from '@/theme';
 import {Ingredient, Recipe} from '@/types';
@@ -21,10 +28,14 @@ import {useRef, useState} from 'react';
 import {BottomSheetModal} from '@gorhom/bottom-sheet';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {showToast} from '@/utils';
+import {Image} from 'react-native';
+import Config from '@/config';
 
 export const CreateRecipeScreen = () => {
   const handleRequest = useHandleRequest();
-  const [createRecipe, {isLoading}] = useCreateRecipeMutation();
+  const [createRecipe, {isLoading: isRecipeCreating}] =
+    useCreateRecipeMutation();
+  const [fileUpload, {isLoading: isFileUploading}] = useFileUploadMutation();
   const instructionSheetRef = useRef<BottomSheetModal>(null);
   const ingredientSheetRef = useRef<BottomSheetModal>(null);
   const categorySheetRef = useRef<BottomSheetModal>(null);
@@ -37,6 +48,7 @@ export const CreateRecipeScreen = () => {
     watch,
     reset,
     setValue,
+    getValues,
     formState: {errors},
   } = useForm();
 
@@ -53,16 +65,21 @@ export const CreateRecipeScreen = () => {
   const onSubmit: SubmitHandler<FieldValues> = async data => {
     await handleRequest({
       request: async () => {
+        const media = await uploadImage();
+        const filePath = media?.filePath;
+        if (!filePath) {
+          throw new Error('Failed to upload image');
+        }
         const body = {
           ...data,
-          image: 'https://via.placeholder.com/600/771796',
+          image: Config.API_URL + filePath,
         } as Recipe;
 
         const res = await createRecipe(body);
         return res;
       },
       onSuccess: () => {
-        reset({ingredients: [], instructions: []});
+        reset({ingredients: [], instructions: [], image: null});
         showToast('Recipe created successfully');
       },
       onError: err => {
@@ -70,6 +87,19 @@ export const CreateRecipeScreen = () => {
         console.log(err);
       },
     });
+  };
+
+  const uploadImage = async () => {
+    const formData = new FormData();
+    const imageValue = getValues('image');
+    const imageObject = {
+      uri: imageValue.uri,
+      name: imageValue.fileName,
+      type: imageValue.type,
+    };
+    formData.append('file', imageObject);
+    const response = await fileUpload(formData);
+    return response.data;
   };
 
   const addInstructionPress = () => {
@@ -250,8 +280,37 @@ export const CreateRecipeScreen = () => {
             Add ingredient +
           </Text>
         </Pressable>
+        {watch('image') && (
+          <View style={$imageWrapper}>
+            <Pressable onPress={() => setValue('image', null)} style={$close}>
+              <Icon name="close" size={20} color={colors.textSecondary} />
+            </Pressable>
+            <Image
+              source={{uri: getValues('image').uri}}
+              style={{width: '100%', height: '100%'}}
+              resizeMode="cover"
+            />
+          </View>
+        )}
+        <Controller
+          name="image"
+          control={control}
+          rules={{required: 'Image is required'}}
+          render={({field: {onChange}}) => (
+            <FilePicker onChange={onChange}>
+              <View style={$addIns}>
+                <Text size="xs" style={{color: colors.primary}}>
+                  Upload image
+                </Text>
+              </View>
+              {errors?.image && (
+                <Text size="xss">{errors?.image?.message as string}</Text>
+              )}
+            </FilePicker>
+          )}
+        />
         <Button
-          isLoading={isLoading}
+          isLoading={isRecipeCreating}
           style={{marginTop: spacing.md}}
           onPress={handleSubmit(onSubmit)}
           // onPress={() => reset()}
@@ -301,3 +360,24 @@ const $ingredient: ViewStyle = {
   paddingVertical: spacing.xs,
 };
 const $placeholderText: TextStyle = {color: colors.inputBorder, flex: 1};
+const $imageWrapper: ViewStyle = {
+  justifyContent: 'center',
+  alignItems: 'center',
+  marginTop: spacing.md,
+  height: 200,
+  width: '100%',
+  overflow: 'hidden',
+  borderRadius: 8,
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  position: 'relative',
+};
+const $close: ViewStyle = {
+  position: 'absolute',
+  top: 5,
+  right: 5,
+  borderRadius: 50,
+  padding: spacing.sm,
+  backgroundColor: colors.palette.primary40,
+  zIndex: 2,
+};

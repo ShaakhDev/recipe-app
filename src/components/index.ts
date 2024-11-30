@@ -6,3 +6,4 @@ export * from './text-field';
 export * from './base-bottom-sheet';
 export * from './profile-more-actions';
 export * from './select-trigger';
+export * from './file-picker';

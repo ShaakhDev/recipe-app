@@ -16,27 +16,18 @@ export const HomeScreen = ({
   navigation,
 }: BottomTabScreenProps<BottomTabParamsList & RootStackParamList>) => {
   const [activeCategory, setActiveCategory] = useState(chips[0]);
-  const {
-    data: recipes,
-    isLoading: isAllRecipesLoading,
-    isFetching,
-  } = useGetAllRecipesQuery(
+  const {data: recipes, isLoading: isAllRecipesLoading} = useGetAllRecipesQuery(
     {
       category: activeCategory === 'All' ? undefined : activeCategory,
     },
     {refetchOnMountOrArgChange: true},
   );
-  const {
-    data: newRecipes,
-    isLoading: isNewRecipesLoading,
-    isError,
-    error,
-  } = useGetNewRecipesQuery();
+  const {data: newRecipes, isLoading: isNewRecipesLoading} =
+    useGetNewRecipesQuery();
 
   const handleSearch = () => {
     navigation.navigate('Search');
   };
-  console.log(isFetching);
   return (
     <ScreenView contentContainerStyle={{paddingHorizontal: 0}}>
       <View style={$headerRow}>

@@ -24,6 +24,8 @@ export type GetRecipeByIdRequest = {
   id: string;
 };
 export type GetNewRecipesRequest = void;
+
+export type FileUploadRequest = FormData;
 ///============================ Response types ============================
 
 export type CreateRecipeResponse = {};
@@ -33,3 +35,7 @@ export type GetAllRecipesResponse = Recipe[];
 export type GetRecipeByIdResponse = Recipe;
 
 export type GetNewRecipesResponse = Recipe[];
+
+export type FileUploadResponse = {
+  filePath: string;
+};

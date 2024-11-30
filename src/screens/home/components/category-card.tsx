@@ -33,7 +33,7 @@ export const CategoryCard = ({recipe}: CategoryCardProps) => {
         <ImageBackground
           style={{width: 100, height: 100}}
           source={imageSource}
-          resizeMode="contain"
+          resizeMode="cover"
         />
         {/* <View style={$ratingBadge}></View> */}
       </View>

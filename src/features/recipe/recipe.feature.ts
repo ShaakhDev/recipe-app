@@ -4,6 +4,8 @@ import {EndpointNames, RTKTagNames} from '@/constants';
 import {
   CreateRecipeRequest,
   CreateRecipeResponse,
+  FileUploadRequest,
+  FileUploadResponse,
   GetAllRecipesRequest,
   GetAllRecipesResponse,
   GetNewRecipesRequest,
@@ -43,6 +45,13 @@ const RecipeEndpoints = baseApi.injectEndpoints({
       }),
       invalidatesTags: [RTKTagNames.RECIPES],
     }),
+    fileUpload: build.mutation<FileUploadResponse, FileUploadRequest>({
+      query: body => ({
+        url: EndpointNames.FILE_UPLOAD,
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
   overrideExisting: true,
 });
@@ -54,4 +63,5 @@ export const {
   useGetNewRecipesQuery,
   // MUTATIONS
   useCreateRecipeMutation,
+  useFileUploadMutation,
 } = RecipeEndpoints;
