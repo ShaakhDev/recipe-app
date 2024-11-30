@@ -7,21 +7,36 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {BottomTabParamsList, RootStackParamList} from '@/navigators';
 import {useState} from 'react';
-import {useGetAllRecipesQuery} from '@/features';
+import {useGetAllRecipesQuery, useGetNewRecipesQuery} from '@/features';
+import {categories} from '@/constants';
 
-const chips = ['All', 'Indian', 'Italian', 'Asian', 'Mexican', 'Chinese'];
+const chips = ['All', ...categories];
 
 export const HomeScreen = ({
   navigation,
 }: BottomTabScreenProps<BottomTabParamsList & RootStackParamList>) => {
-  const {data, isLoading, isFetching} = useGetAllRecipesQuery({
-    category: 'Uzbek cuisine',
-  });
-  const [activeCategory, setActiveCategory] = useState('All');
+  const [activeCategory, setActiveCategory] = useState(chips[0]);
+  const {
+    data: recipes,
+    isLoading: isAllRecipesLoading,
+    isFetching,
+  } = useGetAllRecipesQuery(
+    {
+      category: activeCategory === 'All' ? undefined : activeCategory,
+    },
+    {refetchOnMountOrArgChange: true},
+  );
+  const {
+    data: newRecipes,
+    isLoading: isNewRecipesLoading,
+    isError,
+    error,
+  } = useGetNewRecipesQuery();
+
   const handleSearch = () => {
     navigation.navigate('Search');
   };
-
+  console.log(isFetching);
   return (
     <ScreenView contentContainerStyle={{paddingHorizontal: 0}}>
       <View style={$headerRow}>
@@ -70,11 +85,9 @@ export const HomeScreen = ({
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={$horizontalContainer}>
-        {data?.map((recipe, index) => (
+        {recipes?.map((recipe, index) => (
           <CategoryCard recipe={recipe} />
         ))}
-        {/* <CategoryCard />
-        <CategoryCard /> */}
       </ScrollView>
       <Text style={$sectionTitle} size="md" fontWeight="bold">
         New recipes
@@ -88,9 +101,9 @@ export const HomeScreen = ({
           maxHeight: 150,
           paddingVertical: spacing.xs,
         }}>
-        <NewRecipeCard />
-        <NewRecipeCard />
-        <NewRecipeCard />
+        {newRecipes?.map((recipe, index) => (
+          <NewRecipeCard recipe={recipe} />
+        ))}
       </ScrollView>
     </ScreenView>
   );

@@ -1,4 +1,4 @@
-import {Button, ScreenView, Text, TextField} from '@/components';
+import {Button, ScreenView, SelectTrigger, Text, TextField} from '@/components';
 import {useCreateRecipeMutation} from '@/features';
 import {useHandleRequest} from '@/hooks';
 import {colors, spacing} from '@/theme';
@@ -10,9 +10,13 @@ import {
   useFieldArray,
   useForm,
 } from 'react-hook-form';
-import {Pressable, ScrollView} from 'react-native';
+import {Pressable, TextStyle} from 'react-native';
 import {View, ViewStyle} from 'react-native';
-import {IngredientBottomSheet, InstructionBottomSheet} from './components';
+import {
+  CategoryBottomSheet,
+  IngredientBottomSheet,
+  InstructionBottomSheet,
+} from './components';
 import {useRef, useState} from 'react';
 import {BottomSheetModal} from '@gorhom/bottom-sheet';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -23,6 +27,7 @@ export const CreateRecipeScreen = () => {
   const [createRecipe, {isLoading}] = useCreateRecipeMutation();
   const instructionSheetRef = useRef<BottomSheetModal>(null);
   const ingredientSheetRef = useRef<BottomSheetModal>(null);
+  const categorySheetRef = useRef<BottomSheetModal>(null);
   const [selectedIntsructionIndex, setSelectedInstructionIndex] = useState(-1);
   const [selectedIngredientIndex, setSelectedIngredientIndex] = useState(-1);
 
@@ -31,6 +36,7 @@ export const CreateRecipeScreen = () => {
     handleSubmit,
     watch,
     reset,
+    setValue,
     formState: {errors},
   } = useForm();
 
@@ -50,7 +56,6 @@ export const CreateRecipeScreen = () => {
         const body = {
           ...data,
           image: 'https://via.placeholder.com/600/771796',
-          category: ['Uzbek cuisine'],
         } as Recipe;
 
         const res = await createRecipe(body);
@@ -109,6 +114,13 @@ export const CreateRecipeScreen = () => {
     ingredientsArray.remove(index);
   };
 
+  const onSelectPress = () => {
+    categorySheetRef.current?.present();
+  };
+
+  const onCategorySelect = (category: string) => {
+    setValue('category', category);
+  };
   return (
     <>
       <InstructionBottomSheet
@@ -122,6 +134,11 @@ export const CreateRecipeScreen = () => {
         onAdd={addIngredient}
         onUpdate={updateIngredient}
         defaultValue={watch(`ingredients.${selectedIngredientIndex}`)}
+      />
+      <CategoryBottomSheet
+        bottomSheetRef={categorySheetRef}
+        onSelect={onCategorySelect}
+        selectedCategory={watch('category')}
       />
       <ScreenView style={{flex: 1}}>
         <View style={$inputContainer}>
@@ -169,6 +186,20 @@ export const CreateRecipeScreen = () => {
               />
             )}
           />
+
+          <Controller
+            name="category"
+            control={control}
+            rules={{required: 'Category is required'}}
+            render={({field: {value}}) => (
+              <SelectTrigger onSelect={onSelectPress}>
+                <Text size="xs" style={value ? {flex: 1} : $placeholderText}>
+                  {value || 'Select category'}
+                </Text>
+              </SelectTrigger>
+            )}
+          />
+
           <Text size="xs">Instructions</Text>
           {instructionsArray.fields?.map(({id}, index) => (
             <Pressable
@@ -269,3 +300,4 @@ const $ingredient: ViewStyle = {
   paddingHorizontal: spacing.md,
   paddingVertical: spacing.xs,
 };
+const $placeholderText: TextStyle = {color: colors.inputBorder, flex: 1};

@@ -23,6 +23,7 @@ export type GetAllRecipesRequest = {
 export type GetRecipeByIdRequest = {
   id: string;
 };
+export type GetNewRecipesRequest = void;
 ///============================ Response types ============================
 
 export type CreateRecipeResponse = {};
@@ -30,3 +31,5 @@ export type CreateRecipeResponse = {};
 export type GetAllRecipesResponse = Recipe[];
 
 export type GetRecipeByIdResponse = Recipe;
+
+export type GetNewRecipesResponse = Recipe[];

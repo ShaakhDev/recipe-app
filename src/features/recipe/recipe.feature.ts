@@ -6,6 +6,8 @@ import {
   CreateRecipeResponse,
   GetAllRecipesRequest,
   GetAllRecipesResponse,
+  GetNewRecipesRequest,
+  GetNewRecipesResponse,
   GetRecipeByIdRequest,
   GetRecipeByIdResponse,
 } from './recipe.feature.types';
@@ -16,6 +18,13 @@ const RecipeEndpoints = baseApi.injectEndpoints({
       query: params => ({
         url: EndpointNames.GET_ALL_RECIPES,
         params,
+      }),
+      providesTags: [RTKTagNames.RECIPES],
+    }),
+    getNewRecipes: build.query<GetNewRecipesResponse, GetNewRecipesRequest>({
+      query: () => ({
+        url: EndpointNames.GET_NEW_RECIPES,
+        method: 'GET',
       }),
       providesTags: [RTKTagNames.RECIPES],
     }),
@@ -42,6 +51,7 @@ export const {
   // QUERIES
   useGetAllRecipesQuery,
   useGetRecipeByIdQuery,
+  useGetNewRecipesQuery,
   // MUTATIONS
   useCreateRecipeMutation,
 } = RecipeEndpoints;

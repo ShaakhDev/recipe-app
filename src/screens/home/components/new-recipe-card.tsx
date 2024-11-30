@@ -1,19 +1,30 @@
 import {Text} from '@/components';
+import {RootStackParamList} from '@/navigators';
 import {colors, spacing} from '@/theme';
+import {Recipe} from '@/types';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
+import {Pressable} from 'react-native';
 import {Image, ImageStyle, TextStyle, View, ViewStyle} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 
-export const NewRecipeCard = () => {
+type NewRecipeCardProps = {
+  recipe: Recipe;
+};
+
+export const NewRecipeCard = ({
+  recipe: {title, image, time, _id},
+}: NewRecipeCardProps) => {
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const imageSource = image ? {uri: image} : require('/assets/salad.png');
+  const onPressCard = () => {
+    navigation.navigate('RecipeDetail', {id: _id});
+  };
   return (
-    <View style={$card}>
+    <Pressable style={$card} onPress={onPressCard}>
       <View style={$circleImage}>
-        <Image
-          source={require('/assets/salad.png')}
-          resizeMode="contain"
-          style={$image}
-        />
+        <Image source={imageSource} resizeMode="contain" style={$image} />
       </View>
-      <Text>Title</Text>
+      <Text>{title}</Text>
       <View style={$rating}>
         <Icon name="star" size={10} color={colors.starColor} />
         <Icon name="star" size={10} color={colors.starColor} />
@@ -30,11 +41,11 @@ export const NewRecipeCard = () => {
         </View>
         <View style={[$row]}>
           <Text size="xs" style={$name}>
-            25 mins
+            {time}
           </Text>
         </View>
       </View>
-    </View>
+    </Pressable>
   );
 };
 

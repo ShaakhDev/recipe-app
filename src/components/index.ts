@@ -5,3 +5,4 @@ export * from './button';
 export * from './text-field';
 export * from './base-bottom-sheet';
 export * from './profile-more-actions';
+export * from './select-trigger';

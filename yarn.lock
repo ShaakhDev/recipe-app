@@ -3438,6 +3438,7 @@ __metadata:
     react-hook-form: ^7.53.2
     react-native: 0.73.6
     react-native-gesture-handler: ^2.20.1
+    react-native-image-picker: ^7.1.5
     react-native-keyboard-aware-scroll-view: ^0.9.5
     react-native-linear-gradient: ^2.8.3
     react-native-mmkv: 2.12
@@ -8673,6 +8674,16 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 5d4414ca0c06cc9a1ed704285c2d01a5afd77400914de3374657a777c07de74fc9d0c6bf1fda2ad2f0f1cb2aebed7eaa29a0ce8707d40ab67055abf613e2adc8
+  languageName: node
+  linkType: hard
+
+"react-native-image-picker@npm:^7.1.5":
+  version: 7.1.5
+  resolution: "react-native-image-picker@npm:7.1.5"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 95fc786c5dd223e112301ad657614e2a57f3d3a618b1ec0ba7232e71ea672e553a69a59b10769e12a408f6b8821e74119727288cbadf565f2543aa0556d39bd7
   languageName: node
   linkType: hard
 
